@@ -57,8 +57,6 @@ namespace Sanduba.Auth.Function
                 }
                 else
                     return new OkObjectResult(response);
-
-                return new OkObjectResult(response);
             }
             catch( Exception ex )
             {

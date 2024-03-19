@@ -10,11 +10,12 @@ namespace Sanduba.Auth.Api.Gateway
     {
         public string GenerateJwt(Guid? userId = null)
         {
-            var claims = new Claim[] { 
-                new Claim("Sub", userId.ToString())
+            var claims = new Claim[] { new Claim("Sub", userId.ToString() )
             };
 
             var jwtSecretKey = Environment.GetEnvironmentVariable("AUTH_SECRET_KEY");
+            var jwtIssuer = Environment.GetEnvironmentVariable("AUTH_ISSUER");
+            var jwtAudience = Environment.GetEnvironmentVariable("AUTH_AUDIENCE");
 
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey)),
@@ -22,8 +23,8 @@ namespace Sanduba.Auth.Api.Gateway
             );
 
             var token = new JwtSecurityToken(
-                "Sanduba.Auth",
-                "Users",
+                jwtIssuer,
+                jwtAudience,
                 claims,
                 null,
                 DateTime.UtcNow.AddHours(1),

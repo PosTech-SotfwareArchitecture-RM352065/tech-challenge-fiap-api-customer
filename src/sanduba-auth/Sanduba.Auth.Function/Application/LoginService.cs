@@ -12,9 +12,7 @@ namespace Sanduba.Auth.Api.Application
 
         public static LoginResponse LoginIdentifiedUser(IdentifiedUserRequest requestModel)
         {
-            string hashPassword = _securityGateway.GetHashPassword(requestModel.Password);
-
-            System.Guid? userId = _loginPersistence.GetUserId(requestModel.Username, hashPassword);
+            Guid? userId = _loginPersistence.GetUserId(requestModel.Username, requestModel.Password);
 
             if (userId is not null)
             {
@@ -24,7 +22,7 @@ namespace Sanduba.Auth.Api.Application
             }
             else
             {
-                return new LoginResponse("Failure", "Invalid UserName/Passaword!!!");
+                return new LoginResponse("Failure", "Invalid UserName/Password!");
             }
         }
 
