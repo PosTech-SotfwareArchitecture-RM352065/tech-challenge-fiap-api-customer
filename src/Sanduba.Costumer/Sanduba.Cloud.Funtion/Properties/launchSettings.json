@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Sanduba.Cloud.Funtion": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7025"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 31412,
+      "useSSL": false
+    }
+  }
+}

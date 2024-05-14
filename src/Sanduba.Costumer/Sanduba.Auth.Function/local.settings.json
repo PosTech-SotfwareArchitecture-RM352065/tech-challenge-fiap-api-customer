@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "AzureWebJobsStorageConnectionStringValue",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "AUTH_ISSUER": "Sanduba.Auth",
+    "AUTH_AUDIENCE": "Users",
+    "AUTH_SECRET_KEY": "D95AED6E-9704-4A04-9CB5-9422C56AC0D9",
+    "ConnectionString": "Server=tcp:sanduba-main-sqlserver.database.windows.net,1433;Initial Catalog=sanduba-main-database;Persist Security Info=False;User ID=ro62pGxBKSP;Password=$QhDk^Szf4J8c!ci;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
+}

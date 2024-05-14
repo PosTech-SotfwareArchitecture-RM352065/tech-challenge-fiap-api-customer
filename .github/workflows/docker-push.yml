@@ -25,7 +25,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/sanduba-auth.api
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/sanduba-costumer-api
           tags: |
             type=raw,value={{date 'YYYY.MM'}}{{$image_tag_suffix}}
             type=raw,value=latest{{$image_tag_suffix}}
@@ -39,7 +39,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./src/sanduba-auth/
-          file: ./src/sanduba-auth/Sanduba.Auth.Function/Dockerfile
+          context: ./src/Sanduba.Costumer/
+          file: ./src/Sanduba.Costumer/Sanduba.Cloud.Funtion/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
