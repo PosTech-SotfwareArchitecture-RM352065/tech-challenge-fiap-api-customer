@@ -1,9 +1,6 @@
 name: Push to DockerHub
 
-on:
-  push:
-    branches: ["main"]
-  workflow_dispatch:
+on: [workflow_dispatch, workflow_call]
 
 env:
     image_tag_suffix: ${{ github.ref != 'refs/heads/main' && '-beta' || '' }}
