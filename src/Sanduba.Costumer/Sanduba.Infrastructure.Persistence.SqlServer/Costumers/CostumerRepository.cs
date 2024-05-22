@@ -53,7 +53,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Costumers
             if (_dbContext.Costumers.Where(existente => existente.CPF == entity.RegistryIdentification.ToString()).Any())
                 throw new Exception("Cliente já cadastrado!");
 
-            _dbContext.Database.ExecuteSqlRaw($"Sp_AddCostumer @Id, @CPF, @Name, @Email, @Password",
+            _dbContext.Database.ExecuteSqlRaw($"dbo.Sp_AddCostumer @Id, @CPF, @Name, @Email, @Password",
                 new SqlParameter("@Id", entity.Id),
                 new SqlParameter("@Cpf", entity.RegistryIdentification.ToString()),
                 new SqlParameter("@Name", entity.Name),
