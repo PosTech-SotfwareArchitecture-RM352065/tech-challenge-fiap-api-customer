@@ -45,19 +45,23 @@ jobs:
               python -c "
               import os
               import xml.etree.ElementTree as ET
-              tree = ET.parse('output.xml')
-              root = tree.getroot()
-              total_tests_elem = root.find('.//total/stat[@name=\"All tests\"]')
-              total_tests = total_tests_elem.get('total') if total_tests_elem is not None else '0'
-              passed_tests = total_tests_elem.get('pass') if total_tests_elem is not None else '0'
-              failed_tests = total_tests_elem.get('fail') if total_tests_elem is not None else '0'
-              print(f'Total tests: {total_tests}')
-              print(f'Passed tests: {passed_tests}')
-              print(f'Failed tests: {failed_tests}')
+
+              root = ET.parse("output.xml")
+              results = []
+              for stat in root.findall('.//stat'):
+                  pass_count = stat.get('pass')
+                  fail_count = stat.get('fail')
+                  skip_count = stat.get('skip')
+                  results.append({'pass': pass_count, 'fail': fail_count, 'skip': skip_count})
+
+              print(f'Skiped tests: {skip_count}')
+              print(f'Passed tests: {pass_count}')
+              print(f'Failed tests: {fail_count}')
+
               with open(os.environ['GITHUB_ENV'], 'a') as env_file:
-                  env_file.write(f'TOTAL_TESTS={total_tests}\n')
-                  env_file.write(f'PASSED_TESTS={passed_tests}\n')
-                  env_file.write(f'FAILED_TESTS={failed_tests}\n')
+                  env_file.write(f'SKIPED_TESTS={skip_count}\n')
+                  env_file.write(f'PASSED_TESTS={pass_count}\n')
+                  env_file.write(f'FAILED_TESTS={fail_count}\n')
                       "
 
     - name: Comment on the PR
@@ -66,6 +70,6 @@ jobs:
         issue-number: ${{ github.event.pull_request.number }}
         body: |
           ### Integration Test Results
-          - **Total tests:** ${{ steps.extract_robot_results.outputs.total_tests }}
-          - **Passed tests:** ${{ steps.extract_robot_results.outputs.passed_tests }}
-          - **Failed tests:** ${{ steps.extract_robot_results.outputs.failed_tests }}
+          - **Total tests:** ${{ steps.extract_robot_results.outputs.skip_count }}
+          - **Passed tests:** ${{ steps.extract_robot_results.outputs.pass_count }}
+          - **Failed tests:** ${{ steps.extract_robot_results.outputs.fail_count }}
