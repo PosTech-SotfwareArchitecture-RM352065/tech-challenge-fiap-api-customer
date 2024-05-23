@@ -6,6 +6,7 @@ on:
 
 jobs:
   robot_test:
+    name: Robot Integration Test
     runs-on: ubuntu-latest
     defaults:
       run:
