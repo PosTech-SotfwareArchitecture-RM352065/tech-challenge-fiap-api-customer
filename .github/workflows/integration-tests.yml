@@ -47,7 +47,7 @@ jobs:
               python -c "
               import os
               import xml.etree.ElementTree as ET
-              tree = ET.parse('./output.xml')
+              tree = ET.parse('/home/runner/work/tech-challenge-fiap-api-costumer/tech-challenge-fiap-api-costumer/robot/output.xml')
               root = tree.getroot()
               total_tests_elem = root.find('.//stat[@name=\"All tests\"]')
               passed_tests_elem = root.find('.//stat[@name=\"All tests\"]')
