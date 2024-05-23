@@ -40,8 +40,9 @@ jobs:
     - name: Extract and print Robot Framework results
       id: extract_robot_results
       run: |
-              mkdir -p robot_output
-              robot tests/suites/api_test_suite.robot
+              python -m robot tests/suites/api_test_suite.robot
+
+              ls
 
               python -c "
               import os
