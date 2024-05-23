@@ -1,0 +1,48 @@
+name: Integration Tests
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  bdd_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./robot
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install Robot Framework and other dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Robot Framework tests
+      run: |
+        robot tests/suites/api_test_suite.robot --outputdir output tests/
+      continue-on-error: true
+
+    - name: Generate test report summary
+      id: generate-summary
+      run: |
+        echo "### Test Summary" > summary.md
+        echo "" >> summary.md
+        robotmetrics --inputpath output --output summary.html
+        echo "$(cat summary.html)" >> summary.md
+
+    - name: Post test report summary as comment
+      if: github.event_name == 'pull_request'
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}
+        issue-number: ${{ github.event.pull_request.number }}
+        body: ${{ steps.generate-summary.outputs.summary }}

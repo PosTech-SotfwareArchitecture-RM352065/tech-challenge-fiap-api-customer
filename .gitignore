@@ -396,3 +396,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Robot framework
+robot/log.html
+robot/report.html
+robot/output.xml
