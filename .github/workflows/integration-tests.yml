@@ -18,7 +18,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
+        python-version: '3.x'
 
     - name: Install Robot Framework and other dependencies
       run: |
@@ -40,15 +40,21 @@ jobs:
     - name: Extract and print Robot Framework results
       id: extract_robot_results
       run: |
-        total_tests=$(xmllint --xpath 'string(/robot/statistics/total/stat[@name="All tests"]/@total)' robot_output/output.xml)
-        passed_tests=$(xmllint --xpath 'string(/robot/statistics/total/stat[@name="All tests"]/@pass)' robot_output/output.xml)
-        failed_tests=$(xmllint --xpath 'string(/robot/statistics/total/stat[@name="All tests"]/@fail)' robot_output/output.xml)
-        echo "Total tests: $total_tests"
-        echo "Passed tests: $passed_tests"
-        echo "Failed tests: $failed_tests"
-        echo "::set-output name=total_tests::$total_tests"
-        echo "::set-output name=passed_tests::$passed_tests"
-        echo "::set-output name=failed_tests::$failed_tests"
+        python -c "
+        import xml.etree.ElementTree as ET
+        tree = ET.parse('robot_output/output.xml')
+        root = tree.getroot()
+        total_tests = root.find('.//stat[@name="All tests"]').get('total')
+        passed_tests = root.find('.//stat[@name="All tests"]').get('pass')
+        failed_tests = root.find('.//stat[@name="All tests"]').get('fail')
+        print(f'Total tests: {total_tests}')
+        print(f'Passed tests: {passed_tests}')
+        print(f'Failed tests: {failed_tests}')
+        with open(os.environ['GITHUB_ENV'], 'a') as env_file:
+            env_file.write(f'TOTAL_TESTS={total_tests}\n')
+            env_file.write(f'PASSED_TESTS={passed_tests}\n')
+            env_file.write(f'FAILED_TESTS={failed_tests}\n')
+        "
 
     - name: Comment on the PR
       uses: peter-evans/create-or-update-comment@v1
