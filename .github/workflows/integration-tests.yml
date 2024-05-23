@@ -41,12 +41,12 @@ jobs:
       id: extract_robot_results
       run: |
               mkdir -p robot_output
-              robot --outputdir robot_output tests/suites/api_test_suite.robot
+              robot tests/suites/api_test_suite.robot
 
               python -c "
               import os
               import xml.etree.ElementTree as ET
-              tree = ET.parse('robot_output/output.xml')
+              tree = ET.parse('output.xml')
               root = tree.getroot()
               total_tests_elem = root.find('.//stat[@name=\"All tests\"]')
               passed_tests_elem = root.find('.//stat[@name=\"All tests\"]')
