@@ -33,7 +33,7 @@ jobs:
               import os
               import xml.etree.ElementTree as ET
 
-              root = ET.parse("output.xml")
+              root = ET.parse('output.xml')
               results = []
               for stat in root.findall('.//stat'):
                   pass_count = stat.get('pass')
