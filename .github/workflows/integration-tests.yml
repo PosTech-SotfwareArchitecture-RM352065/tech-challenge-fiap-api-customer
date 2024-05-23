@@ -42,19 +42,15 @@ jobs:
       run: |
               python -m robot tests/suites/api_test_suite.robot
 
-              ls
-
               python -c "
               import os
               import xml.etree.ElementTree as ET
-              tree = ET.parse('/home/runner/work/tech-challenge-fiap-api-costumer/tech-challenge-fiap-api-costumer/robot/output.xml')
+              tree = ET.parse('output.xml')
               root = tree.getroot()
-              total_tests_elem = root.find('.//stat[@name=\"All tests\"]')
-              passed_tests_elem = root.find('.//stat[@name=\"All tests\"]')
-              failed_tests_elem = root.find('.//stat[@name=\"All tests\"]')
+              total_tests_elem = root.find('.//total/stat[@name=\"All tests\"]')
               total_tests = total_tests_elem.get('total') if total_tests_elem is not None else '0'
-              passed_tests = passed_tests_elem.get('pass') if passed_tests_elem is not None else '0'
-              failed_tests = failed_tests_elem.get('fail') if failed_tests_elem is not None else '0'
+              passed_tests = total_tests_elem.get('pass') if total_tests_elem is not None else '0'
+              failed_tests = total_tests_elem.get('fail') if total_tests_elem is not None else '0'
               print(f'Total tests: {total_tests}')
               print(f'Passed tests: {passed_tests}')
               print(f'Failed tests: {failed_tests}')
