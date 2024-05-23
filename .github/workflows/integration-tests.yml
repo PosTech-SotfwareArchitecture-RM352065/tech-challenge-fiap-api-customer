@@ -40,22 +40,25 @@ jobs:
     - name: Extract and print Robot Framework results
       id: extract_robot_results
       run: |
-          python -c "
-          import os
-          import xml.etree.ElementTree as ET
-          tree = ET.parse('robot_output/output.xml')
-          root = tree.getroot()
-          total_tests = root.find('.//stat[@name=\"All tests\"]').get('total')
-          passed_tests = root.find('.//stat[@name=\"All tests\"]').get('pass')
-          failed_tests = root.find('.//stat[@name=\"All tests\"]').get('fail')
-          print(f'Total tests: {total_tests}')
-          print(f'Passed tests: {passed_tests}')
-          print(f'Failed tests: {failed_tests}')
-          with open(os.environ['GITHUB_ENV'], 'a') as env_file:
-              env_file.write(f'TOTAL_TESTS={total_tests}\n')
-              env_file.write(f'PASSED_TESTS={passed_tests}\n')
-              env_file.write(f'FAILED_TESTS={failed_tests}\n')
-                  "
+              python -c "
+              import os
+              import xml.etree.ElementTree as ET
+              tree = ET.parse('robot_output/output.xml')
+              root = tree.getroot()
+              total_tests_elem = root.find('.//stat[@name=\"All tests\"]')
+              passed_tests_elem = root.find('.//stat[@name=\"All tests\"]')
+              failed_tests_elem = root.find('.//stat[@name=\"All tests\"]')
+              total_tests = total_tests_elem.get('total') if total_tests_elem is not None else '0'
+              passed_tests = passed_tests_elem.get('pass') if passed_tests_elem is not None else '0'
+              failed_tests = failed_tests_elem.get('fail') if failed_tests_elem is not None else '0'
+              print(f'Total tests: {total_tests}')
+              print(f'Passed tests: {passed_tests}')
+              print(f'Failed tests: {failed_tests}')
+              with open(os.environ['GITHUB_ENV'], 'a') as env_file:
+                  env_file.write(f'TOTAL_TESTS={total_tests}\n')
+                  env_file.write(f'PASSED_TESTS={passed_tests}\n')
+                  env_file.write(f'FAILED_TESTS={failed_tests}\n')
+                      "
 
     - name: Comment on the PR
       uses: peter-evans/create-or-update-comment@v1
