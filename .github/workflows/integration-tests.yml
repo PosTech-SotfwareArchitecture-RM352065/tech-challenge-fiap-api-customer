@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  bdd_tests:
+  robot_test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -27,22 +27,35 @@ jobs:
 
     - name: Run Robot Framework tests
       run: |
-        robot tests/suites/api_test_suite.robot --outputdir output tests/
+        mkdir -p robot_output
+        robot --outputdir robot_output tests/suites/api_test_suite.robot
       continue-on-error: true
 
-    - name: Generate test report summary
-      id: generate-summary
-      run: |
-        echo "### Test Summary" > summary.md
-        echo "" >> summary.md
-        robotmetrics --inputpath output --output summary.html
-        echo "$(cat summary.html)" >> summary.md
+    - name: Publish Robot Framework output
+      uses: actions/upload-artifact@v2
+      with:
+        name: robot-output
+        path: robot_output/
 
-    - name: Post test report summary as comment
-      if: github.event_name == 'pull_request'
+    - name: Extract and print Robot Framework results
+      id: extract_robot_results
+      run: |
+        total_tests=$(xmllint --xpath 'string(/robot/statistics/total/stat[@name="All tests"]/@total)' robot_output/output.xml)
+        passed_tests=$(xmllint --xpath 'string(/robot/statistics/total/stat[@name="All tests"]/@pass)' robot_output/output.xml)
+        failed_tests=$(xmllint --xpath 'string(/robot/statistics/total/stat[@name="All tests"]/@fail)' robot_output/output.xml)
+        echo "Total tests: $total_tests"
+        echo "Passed tests: $passed_tests"
+        echo "Failed tests: $failed_tests"
+        echo "::set-output name=total_tests::$total_tests"
+        echo "::set-output name=passed_tests::$passed_tests"
+        echo "::set-output name=failed_tests::$failed_tests"
+
+    - name: Comment on the PR
       uses: peter-evans/create-or-update-comment@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        repository: ${{ github.repository }}
         issue-number: ${{ github.event.pull_request.number }}
-        body: ${{ steps.generate-summary.outputs.summary }}
+        body: |
+          ### Test Results
+          - **Total tests:** ${{ steps.extract_robot_results.outputs.total_tests }}
+          - **Passed tests:** ${{ steps.extract_robot_results.outputs.passed_tests }}
+          - **Failed tests:** ${{ steps.extract_robot_results.outputs.failed_tests }}
