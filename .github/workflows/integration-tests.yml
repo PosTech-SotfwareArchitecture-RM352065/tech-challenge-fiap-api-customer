@@ -52,12 +52,35 @@ jobs:
                   env_file.write(f'FAILED_TESTS={fail_count}\n')
                       "
 
-    - name: Comment on the PR
-      uses: peter-evans/create-or-update-comment@v1
+    # - name: Comment on the PR
+    #   uses: peter-evans/create-or-update-comment@v1
+    #   with:
+    #     issue-number: ${{ github.event.pull_request.number }}
+    #     body: |
+    #       ### Integration Test Results
+    #       - **Skiped tests:** ${{ env.SKIPED_TESTS }}
+    #       - **Passed tests:** ${{ env.PASSED_TESTS }}
+    #       - **Failed tests:** ${{ env.FAILED_TESTS }}
+
+    - name: Update pull request
+      id: comment
+      uses: actions/github-script@v7
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: ${{ steps.plan.outputs.stdout }}
       with:
-        issue-number: ${{ github.event.pull_request.number }}
-        body: |
-          ### Integration Test Results
-          - **Skiped tests:** ${{ env.SKIPED_TESTS }}
-          - **Passed tests:** ${{ env.PASSED_TESTS }}
-          - **Failed tests:** ${{ env.FAILED_TESTS }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Integration Test Results
+          #### Skiped tests \`${{ env.SKIPED_TESTS }}\`
+          #### Passed tests \`${{ env.PASSED_TESTS }}\`
+          #### Failed tests \`${{ env.FAILED_TESTS }}\`
+
+          *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
