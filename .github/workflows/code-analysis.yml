@@ -163,7 +163,7 @@ jobs:
           })
 
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request'
     name: Deploy
     uses: ./.github/workflows/docker-push.yml
     secrets: inherit
