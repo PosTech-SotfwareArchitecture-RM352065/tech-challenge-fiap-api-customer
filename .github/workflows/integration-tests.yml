@@ -40,28 +40,29 @@ jobs:
     - name: Extract and print Robot Framework results
       id: extract_robot_results
       run: |
-        python -c "
-        import xml.etree.ElementTree as ET
-        tree = ET.parse('robot_output/output.xml')
-        root = tree.getroot()
-        total_tests = root.find('.//stat[@name="All tests"]').get('total')
-        passed_tests = root.find('.//stat[@name="All tests"]').get('pass')
-        failed_tests = root.find('.//stat[@name="All tests"]').get('fail')
-        print(f'Total tests: {total_tests}')
-        print(f'Passed tests: {passed_tests}')
-        print(f'Failed tests: {failed_tests}')
-        with open(os.environ['GITHUB_ENV'], 'a') as env_file:
-            env_file.write(f'TOTAL_TESTS={total_tests}\n')
-            env_file.write(f'PASSED_TESTS={passed_tests}\n')
-            env_file.write(f'FAILED_TESTS={failed_tests}\n')
-        "
+          python -c "
+          import os
+          import xml.etree.ElementTree as ET
+          tree = ET.parse('robot_output/output.xml')
+          root = tree.getroot()
+          total_tests = root.find('.//stat[@name=\"All tests\"]').get('total')
+          passed_tests = root.find('.//stat[@name=\"All tests\"]').get('pass')
+          failed_tests = root.find('.//stat[@name=\"All tests\"]').get('fail')
+          print(f'Total tests: {total_tests}')
+          print(f'Passed tests: {passed_tests}')
+          print(f'Failed tests: {failed_tests}')
+          with open(os.environ['GITHUB_ENV'], 'a') as env_file:
+              env_file.write(f'TOTAL_TESTS={total_tests}\n')
+              env_file.write(f'PASSED_TESTS={passed_tests}\n')
+              env_file.write(f'FAILED_TESTS={failed_tests}\n')
+                  "
 
     - name: Comment on the PR
       uses: peter-evans/create-or-update-comment@v1
       with:
         issue-number: ${{ github.event.pull_request.number }}
         body: |
-          ### Test Results
+          ### Integration Test Results
           - **Total tests:** ${{ steps.extract_robot_results.outputs.total_tests }}
           - **Passed tests:** ${{ steps.extract_robot_results.outputs.passed_tests }}
           - **Failed tests:** ${{ steps.extract_robot_results.outputs.failed_tests }}
