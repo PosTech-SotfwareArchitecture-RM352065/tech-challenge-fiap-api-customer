@@ -25,21 +25,24 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Robot Framework tests
-      run: |
-        mkdir -p robot_output
-        robot --outputdir robot_output tests/suites/api_test_suite.robot
-      continue-on-error: true
+    # - name: Run Robot Framework tests
+    #   run: |
+    #     mkdir -p robot_output
+    #     robot --outputdir robot_output tests/suites/api_test_suite.robot
+    #   continue-on-error: true
 
-    - name: Publish Robot Framework output
-      uses: actions/upload-artifact@v2
-      with:
-        name: robot-output
-        path: robot_output/
+    # - name: Publish Robot Framework output
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: robot-output
+    #     path: robot_output/
 
     - name: Extract and print Robot Framework results
       id: extract_robot_results
       run: |
+              mkdir -p robot_output
+              robot --outputdir robot_output tests/suites/api_test_suite.robot
+
               python -c "
               import os
               import xml.etree.ElementTree as ET
