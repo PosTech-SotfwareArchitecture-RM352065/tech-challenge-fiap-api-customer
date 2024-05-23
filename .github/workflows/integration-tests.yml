@@ -25,20 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # - name: Run Robot Framework tests
-    #   run: |
-    #     mkdir -p robot_output
-    #     robot --outputdir robot_output tests/suites/api_test_suite.robot
-    #   continue-on-error: true
-
-    # - name: Publish Robot Framework output
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: robot-output
-    #     path: robot_output/
-
-    - name: Extract and print Robot Framework results
-      id: extract_robot_results
+    - name: Run Robot Framework tests
       run: |
               python -m robot tests/suites/api_test_suite.robot
 
@@ -70,6 +57,6 @@ jobs:
         issue-number: ${{ github.event.pull_request.number }}
         body: |
           ### Integration Test Results
-          - **Total tests:** ${{ steps.extract_robot_results.outputs.skip_count }}
-          - **Passed tests:** ${{ steps.extract_robot_results.outputs.pass_count }}
-          - **Failed tests:** ${{ steps.extract_robot_results.outputs.fail_count }}
+          - **Skiped tests:** ${{ env.SKIPED_TESTS }}
+          - **Passed tests:** ${{ env.PASSED_TESTS }}
+          - **Failed tests:** ${{ env.FAILED_TESTS }}
