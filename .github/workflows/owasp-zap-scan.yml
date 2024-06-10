@@ -20,5 +20,5 @@ jobs:
         uses: zaproxy/action-baseline@v0.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          target: ${{ variables.APP_COSTUMER_URL }}
+          target: ${{ vars.APP_COSTUMER_URL }}
           cmd_options: '-a'
