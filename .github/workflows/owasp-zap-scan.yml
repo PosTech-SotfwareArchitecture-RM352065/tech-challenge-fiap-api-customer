@@ -1,12 +1,11 @@
 name: Owasp ZAP Scan
 
 on: 
-  workflow_run:
-    workflows: [integration-test]
-    types:
-      - completed
+  pull_request:
+    branches: ['main']
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
-  
+
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
