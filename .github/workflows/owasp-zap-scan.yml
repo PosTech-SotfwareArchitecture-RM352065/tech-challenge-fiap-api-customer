@@ -3,7 +3,6 @@ name: Owasp ZAP Scan
 on: 
   workflow_dispatch:
   workflow_run:
-    branches: ['main']
     workflows: ['integration-test']
     types:
       - completed
