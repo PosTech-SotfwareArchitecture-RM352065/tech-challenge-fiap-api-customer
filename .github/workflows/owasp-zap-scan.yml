@@ -1,12 +1,12 @@
 name: Owasp ZAP Scan
 
 on: 
-  workflow_dispatch:
   workflow_run:
-    workflows: ['integration-test']
+    workflows: [integration-test]
     types:
       - completed
-
+  workflow_dispatch:
+  
 jobs:
   zap_scan:
     runs-on: ubuntu-latest

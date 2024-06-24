@@ -1,13 +1,13 @@
 name: Code Test & Analysis
 
 on:
-  workflow_dispatch:
   pull_request:
     branches: ['main']
     types: [opened, synchronize, reopened]
   push:
     branches: ['develop']
-
+  workflow_dispatch:
+  
 jobs:
   lint:
     name: Code Lint
