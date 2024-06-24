@@ -1,20 +1,19 @@
 name: Owasp ZAP Scan
 
 on: 
-  workflow_dispatch:
   workflow_run:
-    branches: ['main']
-    workflows: ['integration-test']
+    workflows: [integration-test]
     types:
       - completed
-
+  workflow_dispatch:
+  
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
     name: Scan ZAP website
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.10.0
