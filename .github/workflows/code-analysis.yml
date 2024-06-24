@@ -7,7 +7,7 @@ on:
   push:
     branches: ['develop']
   workflow_dispatch:
-  
+
 jobs:
   lint:
     name: Code Lint
@@ -93,10 +93,3 @@ jobs:
           dotnet build ./src/Sanduba.Costumer/Sanduba.Costumer.sln --no-incremental
           dotnet-coverage collect "dotnet test ./src/Sanduba.Costumer/Sanduba.Costumer.sln /p:CollectCoverage=true" -f xml -o "coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-
-  deploy:
-    if: github.event_name != 'pull_request'
-    name: Deploy
-    uses: ./.github/workflows/docker-push.yml
-    secrets: inherit
-    needs: [lint, test, sonar]
