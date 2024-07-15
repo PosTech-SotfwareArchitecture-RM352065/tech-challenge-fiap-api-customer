@@ -4,8 +4,6 @@ on:
   pull_request:
     branches: ['main']
     types: [opened, synchronize, reopened]
-  push:
-    branches: ['develop']
   workflow_dispatch:
 
 jobs:
@@ -23,7 +21,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Lint .NET
-        run: dotnet format ./src/Sanduba.Costumer/Sanduba.Costumer.sln --verify-no-changes --verbosity diagnostic 
+        run: dotnet format ./src/Sanduba.Customer/Sanduba.Customer.sln --verify-no-changes --verbosity diagnostic 
 
   test:
     name: Code Test
@@ -39,7 +37,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Test .NET
-        run: dotnet test ./src/Sanduba.Costumer/Sanduba.Costumer.sln --verbosity normal
+        run: dotnet test ./src/Sanduba.Customer/Sanduba.Customer.sln --verbosity normal
         
 
   sonar:
@@ -89,7 +87,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PosTech-SotfwareArchitecture-RM352065_tech-challenge-fiap-api-costumer" /o:"postech-sotfwarearchitecture-rm352065" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build ./src/Sanduba.Costumer/Sanduba.Costumer.sln --no-incremental
-          dotnet-coverage collect "dotnet test ./src/Sanduba.Costumer/Sanduba.Costumer.sln /p:CollectCoverage=true" -f xml -o "coverage.xml"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PosTech-SotfwareArchitecture-RM352065_tech-challenge-fiap-api-customer" /o:"postech-sotfwarearchitecture-rm352065" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build ./src/Sanduba.Customer/Sanduba.Customer.sln --no-incremental
+          dotnet-coverage collect "dotnet test ./src/Sanduba.Customer/Sanduba.Customer.sln /p:CollectCoverage=true" -f xml -o "coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

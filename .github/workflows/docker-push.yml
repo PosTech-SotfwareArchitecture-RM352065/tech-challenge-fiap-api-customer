@@ -33,7 +33,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/sanduba-costumer-api
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/sanduba-customer-api
           tags: |
             type=raw,value={{date 'YYYY.MM'}}${{ env.TAG_SUFFIX }}
             type=raw,value=latest${{ env.TAG_SUFFIX }}
@@ -47,7 +47,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./src/Sanduba.Costumer/
-          file: ./src/Sanduba.Costumer/Sanduba.Cloud.Funtion/Dockerfile
+          context: ./src/Sanduba.Customer/
+          file: ./src/Sanduba.Customer/Sanduba.Cloud.Funtion/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}

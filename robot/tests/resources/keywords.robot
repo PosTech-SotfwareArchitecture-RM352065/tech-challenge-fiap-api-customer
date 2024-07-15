@@ -4,7 +4,7 @@ Library     OperatingSystem
 Library     Collections
 
 *** Variables ***
-${API_URL}        https://sanduba-costumer-function.azurewebsites.net/api/
+${API_URL}        https://sanduba-customer-function.azurewebsites.net/api/
 ${VALID_LOGIN_PAYLOAD}    ${CURDIR}/../payloads/valid_login.json
 
 *** Keywords ***
