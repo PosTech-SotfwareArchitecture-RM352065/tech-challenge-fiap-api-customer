@@ -2,7 +2,7 @@
 Resource          resources/keywords.robot
 
 *** Variables ***
-${API_URL}        https://sanduba-costumer-function.azurewebsites.net/api/
+${API_URL}        https://sanduba-customer-function.azurewebsites.net/api/
 
 *** Test Cases ***
 Ao realizar um login com usuário e senha válidos
