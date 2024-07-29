@@ -37,5 +37,15 @@ namespace Sanduba.Adapter.Controller.Customers
             else
                 return new OkObjectResult(responseModel);
         }
+
+        public override IActionResult Present(DeleteCustomerResponseModel responseModel)
+        {
+            if (responseModel == null || responseModel.Status != "Success")
+            {
+                return new BadRequestObjectResult(responseModel);
+            }
+            else
+                return new OkObjectResult(responseModel);
+        }
     }
 }

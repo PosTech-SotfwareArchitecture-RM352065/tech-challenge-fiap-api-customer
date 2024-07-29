@@ -4,10 +4,10 @@ using System;
 
 namespace Sanduba.Core.Application.Abstraction.Customers
 {
-    public interface ICustomerPersistenceGateway : IAsyncPersistenceGateway<Guid, Customer<CPF>>
+    public interface ICustomerPersistenceGateway : IAsyncPersistenceGateway<Guid, IdentifiedCustomer>
     {
-        public Customer<CPF>? GetByLogin(string userName, string password);
-
-        public Customer<CPF>? GetByIdentityNumber(CPF identityNumber);
+        public IdentifiedCustomer? GetByLogin(string userName, string password);
+        public IdentifiedCustomer? GetByIdentityNumber(CPF identityNumber);
+        public Guid RequestInactivation(Guid requestId, Guid customerId, string name, string address, string phoneNumber);
     }
 }

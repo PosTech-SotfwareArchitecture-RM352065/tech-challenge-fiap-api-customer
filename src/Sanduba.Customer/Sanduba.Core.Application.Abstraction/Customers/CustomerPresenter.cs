@@ -9,5 +9,6 @@ namespace Sanduba.Core.Application.Abstraction.Customers
         public abstract T Present(GetCustomerResponseModel responseModel);
         public abstract T Present(IEnumerable<GetCustomerResponseModel> responseModel);
         public abstract T Present(LoginCustomerResponseModel repsonseModel);
+        public abstract T Present(DeleteCustomerResponseModel repsonseModel);
     }
 }

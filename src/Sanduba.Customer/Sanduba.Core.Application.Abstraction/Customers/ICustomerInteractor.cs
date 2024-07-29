@@ -10,5 +10,6 @@ namespace Sanduba.Core.Application.Abstraction.Customers
         public GetCustomerResponseModel GetCustomer(GetCustomerRequestModel requestModel);
         public GetCustomerResponseModel GetAllCustomers();
         public LoginCustomerResponseModel LoginCustomer(LoginCustomerRequestModel requestModel);
+        public DeleteCustomerResponseModel DeleteCustomer(DeleteCustomerRequestModel requestModel);
     }
 }
