@@ -7,12 +7,12 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers.Schemas
     public class CustomerRequest
     {
         [Key]
-        [Required] 
+        [Required]
         public Guid Id { get; set; }
-        
-        [Required] 
+
+        [Required]
         public Guid CustomerId { get; set; }
-        
+
         [Required]
         [Column(TypeName = "datetime")]
         public DateTime RequestedAt { get; set; }

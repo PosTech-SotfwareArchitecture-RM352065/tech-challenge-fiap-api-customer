@@ -34,7 +34,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers
             var query = _dbContext.Customers
                 .Where(customer => customer.Id == customerId)
                 .FirstOrDefault();
-            
+
             return _mapper.Map<IdentifiedCustomer>(query);
         }
 
@@ -98,7 +98,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers
         }
 
         public async Task<IdentifiedCustomer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-         {
+        {
             var query = await _dbContext.Customers
                 .Include(customer => customer.Requests)
                 .Where(customer => customer.Id == id)

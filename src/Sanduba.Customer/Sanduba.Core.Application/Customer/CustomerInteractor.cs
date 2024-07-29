@@ -141,10 +141,10 @@ namespace Sanduba.Core.Application.Customer
             }
 
             var requestId = _customerRepository.RequestInactivation(
-                Guid.NewGuid(),                
-                requestModel.CustomerId, 
-                requestModel.Name, 
-                requestModel.Address, 
+                Guid.NewGuid(),
+                requestModel.CustomerId,
+                requestModel.Name,
+                requestModel.Address,
                 requestModel.PhoneNumber
             );
 

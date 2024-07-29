@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sanduba.Core.Domain.Customers
 {
-    public sealed class IdentifiedCustomer: Customer<CPF>
+    public sealed class IdentifiedCustomer : Customer<CPF>
     {
         public IdentifiedCustomer(Guid id, string registrationNumber, string name, string email, string password)
             : base(id)
@@ -18,7 +18,7 @@ namespace Sanduba.Core.Domain.Customers
 
         public static Customer<CPF> CreateCustomer(Guid id, string registrationNumber, string name, string email, string password)
         {
-            IdentifiedCustomer customer = new 
+            IdentifiedCustomer customer = new
             (
                 id,
                 registrationNumber,

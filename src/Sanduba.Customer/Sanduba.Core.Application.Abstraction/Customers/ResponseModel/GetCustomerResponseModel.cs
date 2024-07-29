@@ -5,17 +5,17 @@ namespace Sanduba.Core.Application.Abstraction.Customers.ResponseModel
 {
     public record CustomerResponseModel(
         Guid Id,
-        string? Name, 
-        string? RegistryIdentification, 
+        string? Name,
+        string? RegistryIdentification,
         string? Email,
         ICollection<CustomerRequestResponseModel> Requests
     );
 
     public record CustomerRequestResponseModel(
-        Guid Id, 
+        Guid Id,
         DateTime RequestedAt,
         string Type,
-        string Status, 
+        string Status,
         string Comments
     );
 
