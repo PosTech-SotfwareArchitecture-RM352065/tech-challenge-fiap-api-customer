@@ -1,18 +1,19 @@
 ﻿using Sanduba.Core.Domain.Commons.Assertions;
 using Sanduba.Core.Domain.Commons.Types;
 using System;
+using System.Collections.Generic;
 
 namespace Sanduba.Core.Domain.Customers
 {
-    public abstract class Customer<T> : Entity<Guid>
+    public abstract class Customer<T>(Guid id) : Entity<Guid>(id)
     {
-        protected Customer(Guid id) : base(id) { }
-
+        protected List<Request> _requests;
         public T? RegistryIdentification { get; init; }
         public IdentityType IdentityType { get; init; }
         public string Name { get; init; }
         public string Email { get; init; }
         public string Password { get; init; }
+        public List<Request> Requests { get; init; }
 
         public override void ValidateEntity()
         {

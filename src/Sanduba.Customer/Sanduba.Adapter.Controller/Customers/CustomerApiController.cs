@@ -31,5 +31,11 @@ namespace Sanduba.Adapter.Controller.Customers
             var responseModel = interactor.LoginCustomer(requestModel);
             return presenter.Present(responseModel);
         }
+
+        public override IActionResult DeleteCustomer(DeleteCustomerRequestModel requestModel)
+        {
+            var responseModel = interactor.DeleteCustomer(requestModel);
+            return presenter.Present(responseModel);
+        }
     }
 }

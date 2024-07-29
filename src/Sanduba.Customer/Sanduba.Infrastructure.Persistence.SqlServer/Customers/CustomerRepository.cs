@@ -7,7 +7,7 @@ using Sanduba.Core.Domain.Customers;
 using Sanduba.Core.Application.Abstraction.Customers;
 using System.Threading.Tasks;
 using System.Threading;
-using IdentifiedCustomer = Sanduba.Core.Domain.Customers.Customer<Sanduba.Core.Domain.Customers.CPF>;
+using IdentifiedCustomer = Sanduba.Core.Domain.Customers.IdentifiedCustomer;
 using System.Data;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -31,10 +31,11 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers
             if (parameterId.Value == DBNull.Value) return null;
             if (!Guid.TryParse(parameterId.Value.ToString(), out Guid customerId)) return null;
 
-            return _dbContext.Customers
+            var query = _dbContext.Customers
                 .Where(customer => customer.Id == customerId)
-                .ProjectTo<IdentifiedCustomer>(_mapper.ConfigurationProvider)
                 .FirstOrDefault();
+
+            return _mapper.Map<IdentifiedCustomer>(query);
         }
 
         public IdentifiedCustomer? GetByIdentityNumber(CPF identityNumber)
@@ -43,10 +44,29 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers
                 return null;
 
             var query = _dbContext.Customers
+                .Include(customer => customer.Requests)
                 .Where(customer => customer.CPF == identityNumber.ToString())
                 .FirstOrDefault();
 
             return _mapper.Map<IdentifiedCustomer>(query);
+        }
+
+        public Guid RequestInactivation(Guid requestId, Guid customerId, string name, string address, string phoneNumber)
+        {
+            var request = new Schemas.CustomerRequest()
+            {
+                Id = requestId,
+                CustomerId = customerId,
+                RequestedAt = DateTime.UtcNow,
+                Status = "Requested",
+                Type = "Delete",
+                Comments = $"Requested by Name: {name} Address: {address} PhoneNumber: {phoneNumber}"
+            };
+
+            _dbContext.CustomerRequests.AddAsync(request);
+            _dbContext.SaveChanges();
+
+            return requestId;
         }
 
         public Task SaveAsync(IdentifiedCustomer entity, CancellationToken cancellationToken = default)
@@ -77,17 +97,20 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers
             throw new NotImplementedException();
         }
 
-        public Task<IdentifiedCustomer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IdentifiedCustomer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return _dbContext.Customers
+            var query = await _dbContext.Customers
+                .Include(customer => customer.Requests)
                 .Where(customer => customer.Id == id)
-                .ProjectTo<IdentifiedCustomer>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
+
+            return _mapper.Map<IdentifiedCustomer>(query);
         }
 
         public async Task<List<IdentifiedCustomer>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var query = await _dbContext.Customers
+                .Include(customer => customer.Requests)
                 .ToListAsync();
 
             return _mapper.Map<List<IdentifiedCustomer>>(query);

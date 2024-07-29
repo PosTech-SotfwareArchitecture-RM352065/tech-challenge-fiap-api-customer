@@ -53,7 +53,15 @@ namespace Sanduba.Core.Application.Customer
                     Id: customer.Id,
                     Name: customer.Name,
                     Email: customer.Email,
-                    RegistryIdentification: customer?.RegistryIdentification?.ToString()
+                    RegistryIdentification: customer?.RegistryIdentification?.ToString(),
+                    Requests: customer?.Requests?.Select( req =>
+                        new CustomerRequestResponseModel (
+                            req.Id,
+                            req.RequestedAt,
+                            req.Type.ToString(),
+                            req.Status.ToString(),
+                            req.Comments
+                        )).ToList()
                 ) }
             );
         }
@@ -80,7 +88,15 @@ namespace Sanduba.Core.Application.Customer
                     Id: customer.Id,
                     Name: customer.Name,
                     Email: customer.Email,
-                    RegistryIdentification: customer?.RegistryIdentification?.ToString()
+                    RegistryIdentification: customer?.RegistryIdentification?.ToString(),
+                    Requests: customer?.Requests?.Select(req =>
+                        new CustomerRequestResponseModel(
+                            req.Id,
+                            req.RequestedAt,
+                            req.Type.ToString(),
+                            req.Status.ToString(),
+                            req.Comments
+                        )).ToList()
                 )).ToList()
             );
         }
@@ -113,6 +129,26 @@ namespace Sanduba.Core.Application.Customer
                 Message: "Autenticado com sucesso!",
                 Token: jwt
             );
+        }
+
+        public DeleteCustomerResponseModel DeleteCustomer(DeleteCustomerRequestModel requestModel)
+        {
+            var customer = _customerRepository.GetByIdAsync(requestModel.CustomerId).Result;
+
+            if (customer is null)
+            {
+                return new DeleteCustomerResponseModel(null, "Failure", "Customer not found!");
+            }
+
+            var requestId = _customerRepository.RequestInactivation(
+                Guid.NewGuid(),
+                requestModel.CustomerId,
+                requestModel.Name,
+                requestModel.Address,
+                requestModel.PhoneNumber
+            );
+
+            return new DeleteCustomerResponseModel(requestId, "Successful", "Customer deletion requested!");
         }
 
         private string GenerateJwt(Guid userId)

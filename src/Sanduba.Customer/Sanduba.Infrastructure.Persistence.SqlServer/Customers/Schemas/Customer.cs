@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Sanduba.Core.Domain.Customers;
-using CustomerDomain = Sanduba.Core.Domain.Customers.Customer<Sanduba.Core.Domain.Customers.CPF>;
 
-namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers.Schema
+namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers.Schemas
 {
     public class Customer
     {
@@ -30,5 +29,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers.Schema
         [Required]
         [Column(TypeName = "BINARY(64)")]
         public string Password { get; init; }
+
+        public ICollection<CustomerRequest> Requests { get; init; }
     }
 }

@@ -17,5 +17,6 @@ namespace Sanduba.Core.Application.Abstraction.Customers
         public abstract T GetCustomer(GetCustomerRequestModel requestModel);
         public abstract T GetAllCustomers();
         public abstract T LoginCustomer(LoginCustomerRequestModel requestModel);
+        public abstract T DeleteCustomer(DeleteCustomerRequestModel requestModel);
     }
 }

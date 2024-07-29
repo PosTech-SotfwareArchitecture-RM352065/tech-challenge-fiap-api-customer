@@ -57,20 +57,20 @@ namespace Sanduba.Cloud.Funtion.Customer
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             if (string.IsNullOrEmpty(requestBody)) return new BadRequestObjectResult("Invalid customer!");
 
-            var createCustomerRequest = JsonSerializer.Deserialize<CreateCustomerRequest>(requestBody);
-            if (createCustomerRequest is null) return new BadRequestObjectResult("Invalid customer!");
+            var deleteCustomerRequest = JsonSerializer.Deserialize<DeleteCustomerRequest>(requestBody);
+            if (deleteCustomerRequest is null) return new BadRequestObjectResult("Invalid request!");
 
-            CreateCustomerRequestModel request = new CreateCustomerRequestModel
-                (
-                    createCustomerRequest.CPF,
-                    createCustomerRequest.Name,
-                    createCustomerRequest.Email,
-                    createCustomerRequest.Password
-                );
+            DeleteCustomerRequestModel request = new DeleteCustomerRequestModel
+            (
+                deleteCustomerRequest.CustomerId,
+                deleteCustomerRequest.Name,
+                deleteCustomerRequest.Address,
+                deleteCustomerRequest.PhoneNumber
+            );
 
             try
             {
-                return _customerController.CreateCustomer(request);
+                return _customerController.DeleteCustomer(request);
             }
             catch (Exception ex)
             {
