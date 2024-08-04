@@ -2,7 +2,7 @@
 using Sanduba.Core.Application.Abstraction.Customers;
 using Sanduba.Core.Application.Abstraction.Customers.RequestModel;
 
-namespace Sanduba.Adapter.Controller.Customers
+namespace Sanduba.Adapter.Mvc.Customers
 {
     public sealed class CustomerApiController : CustomerController<IActionResult>
     {

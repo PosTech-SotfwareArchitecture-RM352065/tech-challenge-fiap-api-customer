@@ -21,8 +21,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sanduba.Adapter.Controller\Sanduba.Adapter.Controller.csproj" />
+    <ProjectReference Include="..\Sanduba.Adapter.Mvc\Sanduba.Adapter.Mvc.csproj" />
     <ProjectReference Include="..\Sanduba.Core.Application\Sanduba.Core.Application.csproj" />
+    <ProjectReference Include="..\Sanduba.Infrastructure.Broker.ServiceBus\Sanduba.Infrastructure.Broker.ServiceBus.csproj" />
     <ProjectReference Include="..\Sanduba.Infrastructure.Persistence.SqlServer\Sanduba.Infrastructure.Persistence.SqlServer.csproj" />
   </ItemGroup>
   <ItemGroup>

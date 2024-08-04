@@ -11,13 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Core.Application.Ab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Infrastructure.Persistence.SqlServer", "Sanduba.Infrastructure.Persistence.SqlServer\Sanduba.Infrastructure.Persistence.SqlServer.csproj", "{98EA42B5-830E-4451-AB9E-79174738C61F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Adapter.Controller", "Sanduba.Adapter.Controller\Sanduba.Adapter.Controller.csproj", "{D6049A14-8197-4DBC-98D1-C59279A9541E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Adapter.Mvc", "Sanduba.Adapter.Mvc\Sanduba.Adapter.Mvc.csproj", "{D6049A14-8197-4DBC-98D1-C59279A9541E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{27ABD41C-B6D1-47F9-AF09-A9B738085367}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Customer.UnitTests", "Sanduba.Customer.UnitTests\Sanduba.Customer.UnitTests.csproj", "{0B87F171-4050-4489-9CED-625465C32C0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Tests.UnitTests", "Sanduba.Tests.UnitTests\Sanduba.Tests.UnitTests.csproj", "{0B87F171-4050-4489-9CED-625465C32C0F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Cloud.Funtion", "Sanduba.Cloud.Funtion\Sanduba.Cloud.Funtion.csproj", "{C023E53D-5DC5-40EE-B72E-7224BDC3B0FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sanduba.Infrastructure.Broker.ServiceBus", "Sanduba.Infrastructure.Broker.ServiceBus\Sanduba.Infrastructure.Broker.ServiceBus.csproj", "{BDCC20E1-8BB0-4F0B-A9DA-7F2BB4E28253}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{C023E53D-5DC5-40EE-B72E-7224BDC3B0FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C023E53D-5DC5-40EE-B72E-7224BDC3B0FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C023E53D-5DC5-40EE-B72E-7224BDC3B0FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDCC20E1-8BB0-4F0B-A9DA-7F2BB4E28253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDCC20E1-8BB0-4F0B-A9DA-7F2BB4E28253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDCC20E1-8BB0-4F0B-A9DA-7F2BB4E28253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDCC20E1-8BB0-4F0B-A9DA-7F2BB4E28253}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
