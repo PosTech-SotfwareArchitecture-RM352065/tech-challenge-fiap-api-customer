@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Sanduba.Core.Application.Abstraction.Customers
 {
     public interface ICustomerNotification
-    { 
+    {
         public Task InactivationRequested(InactivationRequestedEvent eventData);
     }
 }

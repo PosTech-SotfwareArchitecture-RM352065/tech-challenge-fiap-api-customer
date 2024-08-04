@@ -18,7 +18,7 @@ var host = new HostBuilder()
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
         services.AddApplication(context.Configuration);
-        services.AddServiceBusInfrastructure(context.Configuration); 
+        services.AddServiceBusInfrastructure(context.Configuration);
         services.AddMvcAdapter(context.Configuration);
         services.AddSqlServerInfrastructure(context.Configuration);
         services.Configure<JsonSerializerOptions>(options =>
