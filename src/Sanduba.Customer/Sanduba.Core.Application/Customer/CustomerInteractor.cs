@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Sanduba.Core.Application.Abstraction.Customers;
+using Sanduba.Core.Application.Abstraction.Customers.Events;
 using Sanduba.Core.Application.Abstraction.Customers.RequestModel;
 using Sanduba.Core.Application.Abstraction.Customers.ResponseModel;
 using Sanduba.Core.Domain.Customers;
@@ -13,9 +14,13 @@ using System.Text;
 
 namespace Sanduba.Core.Application.Customer
 {
-    public class CustomerInteractor(ICustomerPersistenceGateway customerRepository) : ICustomerInteractor
+    public class CustomerInteractor(
+        ICustomerPersistenceGateway customerRepository,
+        ICustomerNotification customerNotification
+    ) : ICustomerInteractor
     {
         private readonly ICustomerPersistenceGateway _customerRepository = customerRepository;
+        private readonly ICustomerNotification _customerNotification = customerNotification;
 
         public CreateCustomerResponseModel CreateCustomer(CreateCustomerRequestModel request)
         {
@@ -146,6 +151,10 @@ namespace Sanduba.Core.Application.Customer
                 requestModel.Name,
                 requestModel.Address,
                 requestModel.PhoneNumber
+            );
+
+            _customerNotification.InactivationRequested(new InactivationRequestedEvent(
+                requestId, requestModel.CustomerId)
             );
 
             return new DeleteCustomerResponseModel(requestId, "Successful", "Customer deletion requested!");

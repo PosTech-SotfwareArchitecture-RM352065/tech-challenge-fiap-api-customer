@@ -1,4 +1,4 @@
-namespace Sanduba.Customer.UnitTests
+namespace Sanduba.Tests.UnitTests
 {
     public class UnitTest1
     {

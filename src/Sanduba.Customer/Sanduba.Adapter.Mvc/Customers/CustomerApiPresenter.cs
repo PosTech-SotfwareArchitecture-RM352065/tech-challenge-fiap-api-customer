@@ -3,7 +3,7 @@ using Sanduba.Core.Application.Abstraction.Customers;
 using Sanduba.Core.Application.Abstraction.Customers.ResponseModel;
 using System.Collections.Generic;
 
-namespace Sanduba.Adapter.Controller.Customers
+namespace Sanduba.Adapter.Mvc.Customers
 {
     public sealed class CustomerApiPresenter : CustomerPresenter<IActionResult>
     {
