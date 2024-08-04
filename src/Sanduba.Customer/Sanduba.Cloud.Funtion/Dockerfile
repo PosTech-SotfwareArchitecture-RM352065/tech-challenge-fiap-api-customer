@@ -13,7 +13,7 @@ COPY ["Sanduba.Core.Application.Abstraction/Sanduba.Core.Application.Abstraction
 COPY ["Sanduba.Core.Domain/Sanduba.Core.Domain.csproj", "Sanduba.Core.Domain/"]
 COPY ["Sanduba.Core.Application/Sanduba.Core.Application.csproj", "Sanduba.Core.Application/"]
 COPY ["Sanduba.Infrastructure.Persistence.SqlServer/Sanduba.Infrastructure.Persistence.SqlServer.csproj", "Sanduba.Infrastructure.Persistence.SqlServer/"]
-COPY ["Sanduba.Infrastructure.Broker.ServiceBus/Sanduba.Infrastructure.Persistence.SqlServer.csproj", "Sanduba.Infrastructure.Persistence.SqlServer/"]
+COPY ["Sanduba.Infrastructure.Broker.ServiceBus/Sanduba.Infrastructure.Broker.ServiceBus.csproj", "Sanduba.Infrastructure.Broker.ServiceBus/"]
 RUN dotnet restore "./Sanduba.Cloud.Funtion/Sanduba.Cloud.Funtion.csproj"
 COPY . .
 WORKDIR "/src/Sanduba.Cloud.Funtion"
