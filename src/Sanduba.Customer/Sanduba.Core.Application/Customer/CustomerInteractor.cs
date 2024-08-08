@@ -5,7 +5,6 @@ using Sanduba.Core.Application.Abstraction.Customers.RequestModel;
 using Sanduba.Core.Application.Abstraction.Customers.ResponseModel;
 using Sanduba.Core.Domain.Customers;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -157,7 +156,7 @@ namespace Sanduba.Core.Application.Customer
                 requestId, requestModel.CustomerId)
             );
 
-            return new DeleteCustomerResponseModel(requestId, "Successful", "Customer deletion requested!");
+            return new DeleteCustomerResponseModel(requestId, "Success", "Customer deletion requested!");
         }
 
         private string GenerateJwt(Guid userId)
