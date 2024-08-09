@@ -25,12 +25,22 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
 
             services.AddMassTransit(options =>
             {
+                options.AddConsumer<CustomerNotificationBroker>();
+
                 options.UsingAzureServiceBus((context, config) =>
                 {
                     config.Host(configuration["BrokerSettings:ConnectionString"]);
                     config.Message<InactivationRequestedEvent>(x =>
                     {
                         x.SetEntityName(configuration["BrokerSettings:TopicName"]);
+                    });
+
+                    config.SubscriptionEndpoint(
+                        configuration["BrokerSettings:SubscriptionName"],
+                        configuration["BrokerSettings:TopicName"],
+                        e => {
+                            e.UseMessageRetry(r => r.Interval(2, 10));
+                            e.ConfigureConsumer<CustomerNotificationBroker>(context);
                     });
                     config.DeployTopologyOnly = false;
                 });

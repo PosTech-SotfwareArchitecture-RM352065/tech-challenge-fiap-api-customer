@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +9,7 @@ using Sanduba.Core.Application.Abstraction.Customers;
 using System.Threading.Tasks;
 using System.Threading;
 using IdentifiedCustomer = Sanduba.Core.Domain.Customers.IdentifiedCustomer;
-using System.Data;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 
 namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers
 {
@@ -114,6 +113,36 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers
                 .ToListAsync();
 
             return _mapper.Map<List<IdentifiedCustomer>>(query);
+        }
+
+        public void UpdateRequest(Guid requestId, RequestStatus status)
+        {
+            _dbContext.CustomerRequests
+                .Where(request => request.Id == requestId)
+                .ExecuteUpdate(request => request
+                    .SetProperty(o => o.Status, status.ToString())
+                );
+
+            if(status == RequestStatus.Accepted)
+            {
+
+                var request = _dbContext.CustomerRequests
+                    .Where(request => request.Id == requestId)
+                    .FirstOrDefault();
+
+                if(request?.Type == RequestType.Delete.ToString())
+                    _dbContext.Customers
+                        .Where(customer => customer.Id == request.CustomerId)
+                        .ExecuteUpdate(customer => customer
+                            .SetProperty(o => o.Name, o => null)
+                            .SetProperty(o => o.CPF, o => null)
+                            .SetProperty(o => o.Email, o => null)
+                            .SetProperty(o => o.Password, o => null)
+                            .SetProperty(o => o.Active, false)
+                        );
+            }
+
+            _dbContext.SaveChanges();
         }
     }
 }

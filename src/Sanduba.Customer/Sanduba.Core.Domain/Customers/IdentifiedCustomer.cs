@@ -9,6 +9,7 @@ namespace Sanduba.Core.Domain.Customers
             : base(id)
         {
             CPF registryIdentification = new CPF(registrationNumber);
+
             RegistryIdentification = registryIdentification;
             IdentityType = IdentityType.Identified;
             Name = name;
@@ -18,6 +19,9 @@ namespace Sanduba.Core.Domain.Customers
 
         public static Customer<CPF> CreateCustomer(Guid id, string registrationNumber, string name, string email, string password)
         {
+            if (CPF.Validate(registrationNumber))
+                throw new ArgumentException("Invalid identity number", nameof(registrationNumber));
+
             IdentifiedCustomer customer = new
             (
                 id,

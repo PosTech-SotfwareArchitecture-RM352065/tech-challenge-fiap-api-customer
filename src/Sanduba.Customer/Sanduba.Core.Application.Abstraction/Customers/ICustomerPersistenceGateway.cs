@@ -9,5 +9,6 @@ namespace Sanduba.Core.Application.Abstraction.Customers
         public IdentifiedCustomer? GetByLogin(string userName, string password);
         public IdentifiedCustomer? GetByIdentityNumber(CPF identityNumber);
         public Guid RequestInactivation(Guid requestId, Guid customerId, string name, string address, string phoneNumber);
+        public void UpdateRequest(Guid requestId, RequestStatus status);
     }
 }

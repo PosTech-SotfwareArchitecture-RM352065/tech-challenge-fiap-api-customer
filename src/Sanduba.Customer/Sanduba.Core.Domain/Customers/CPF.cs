@@ -1,4 +1,6 @@
-﻿namespace Sanduba.Core.Domain.Customers
+﻿using System.Security.Principal;
+
+namespace Sanduba.Core.Domain.Customers
 {
     public sealed class CPF(string IdentityNumber) : RegistryIdentification("CPF", IdentityNumber)
     {
@@ -11,6 +13,7 @@
 
         protected override string RemoveMask(string identityNumber)
         {
+            if (string.IsNullOrEmpty(identityNumber)) return identityNumber;
             return identityNumber.Trim().Replace(".", "").Replace("-", "");
         }
 
@@ -20,11 +23,13 @@
         }
 
 
-        public override bool Validate(string candidateIdentity)
+        public static bool Validate(string candidateIdentity)
         {
             if (string.IsNullOrEmpty(candidateIdentity)) return false;
 
-            var identityNumberCandidate = RemoveMask(candidateIdentity);
+            var candidate = new CPF(candidateIdentity);
+
+            var identityNumberCandidate = candidate.RemoveMask(candidateIdentity);
 
             if (identityNumberCandidate.Length != registrationLength) return false;
 
