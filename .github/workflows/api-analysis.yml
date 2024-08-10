@@ -9,7 +9,7 @@ on:
 
 jobs:
   robot_test:
-    name: Integration Test
+    name: Robot Integration Test
     runs-on: ubuntu-latest
     defaults:
       run:
