@@ -1,14 +1,12 @@
-name: Push to DockerHub
+name: Push to DockerHub & Azure Functions
 
 on: 
-  workflow_run:
-    workflows: ['code-analysis']
-    types:
-      - completed
-    branches: ['develop']
   push:
-    branches: ['main']
+    branches: ['main', 'develop']
+    paths-ignore:
+      - '**/*.md'
   workflow_dispatch:
+ 
  
 jobs:
   docker:
