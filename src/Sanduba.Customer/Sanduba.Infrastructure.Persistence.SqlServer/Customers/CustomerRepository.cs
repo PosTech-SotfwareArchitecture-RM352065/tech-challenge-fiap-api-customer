@@ -123,24 +123,19 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Customers
                     .SetProperty(o => o.Status, status.ToString())
                 );
 
-            if(status == RequestStatus.Accepted)
-            {
+            var request = _dbContext.CustomerRequests
+                .Where(request => request.Id == requestId)
+                .FirstOrDefault();
 
-                var request = _dbContext.CustomerRequests
-                    .Where(request => request.Id == requestId)
-                    .FirstOrDefault();
-
-                if(request?.Type == RequestType.Delete.ToString())
-                    _dbContext.Customers
-                        .Where(customer => customer.Id == request.CustomerId)
-                        .ExecuteUpdate(customer => customer
-                            .SetProperty(o => o.Name, o => null)
-                            .SetProperty(o => o.CPF, o => null)
-                            .SetProperty(o => o.Email, o => null)
-                            .SetProperty(o => o.Password, o => null)
-                            .SetProperty(o => o.Active, false)
-                        );
-            }
+            _dbContext.Customers
+                .Where(customer => customer.Id == request.CustomerId)
+                .ExecuteUpdate(customer => customer
+                    .SetProperty(o => o.Name, o => null)
+                    .SetProperty(o => o.CPF, o => null)
+                    .SetProperty(o => o.Email, o => null)
+                    .SetProperty(o => o.Password, o => null)
+                    .SetProperty(o => o.Active, false)
+                );
 
             _dbContext.SaveChanges();
         }
